@@ -3,7 +3,7 @@ package com.nelioalves.cursomc1.resources;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.catalina.startup.Catalina;
+
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
