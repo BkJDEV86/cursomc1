@@ -9,8 +9,9 @@ import com.nelioalves.cursomc1.domain.Cidade;
 import com.nelioalves.cursomc1.domain.Cliente;
 
 @Repository
-public interface CidadeRepository extends JpaRepository<Cidade, Integer> {
+public interface ClienteRepository extends JpaRepository<Cliente, Integer> {
 
+	
 	
 	
 	
