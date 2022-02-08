@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.nelioalves.cursomc1.domain.enums.EstadoPagamento;
 
 @Entity
@@ -24,6 +25,7 @@ public abstract class Pagamento implements Serializable {// Aqui é colocado abs
 	private Integer id;
 	private Integer estado;
 	
+	@JsonBackReference
 	@OneToOne
 	@JoinColumn(name= "pedido_id")
 	@MapsId // Aqui é pra garantir que o id do pagamento seja o mesmo do pedido por isso não foi colocado @generated value para
