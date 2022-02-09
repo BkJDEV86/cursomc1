@@ -16,7 +16,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity	
@@ -28,15 +27,17 @@ public class Produto implements Serializable {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
-	private double preço;
+	private double preco;
 	
-	
-	@JsonBackReference //do outro lado da associação já foram buscados os objetos, agora eu não busco mais, omitindo a lista de categorias para cada produto, desta forma
+	@JsonIgnore
+	 //do outro lado da associação já foram buscados os objetos, agora eu não busco mais, omitindo a lista de categorias para cada produto, desta forma
 	//não dá erro no json...
 	@ManyToMany
 	@JoinTable(name = "PRODUTO_CATEGORIA", joinColumns = @JoinColumn(name = "produto_id"),
 	inverseJoinColumns = @JoinColumn(name = "categoria_id")
 	)
+	
+	
 	private List<Categoria> categorias = new ArrayList<>();
 	
 	@JsonIgnore
@@ -47,11 +48,11 @@ public class Produto implements Serializable {
 	
 	}
 
-	public Produto(Integer id, String nome, double preço) {
+	public Produto(Integer id, String nome, double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;
-		this.preço = preço;
+		this.preco = preco;
 	}
 	
 	@JsonIgnore
@@ -82,12 +83,12 @@ public class Produto implements Serializable {
 		this.nome = nome;
 	}
 
-	public double getPreço() {
-		return preço;
+	public double getPreco() {
+		return preco;
 	}
 
-	public void setPreço(double preço) {
-		this.preço = preço;
+	public void setPreço(double preco) {
+		this.preco = preco;
 	}
 
 	public List<Categoria> getCategorias() {

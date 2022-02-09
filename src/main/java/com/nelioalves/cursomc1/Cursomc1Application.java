@@ -46,11 +46,14 @@ public class Cursomc1Application implements CommandLineRunner { // Aqui é para 
 	@Autowired
 	private CidadeRepository cidadeRepository;
 	
-	@Autowired
-	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
+	
 	
 	@Autowired
 	private PedidoRepository pedidoRepository;

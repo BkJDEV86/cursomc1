@@ -10,18 +10,12 @@ import java.util.Set;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nelioalves.cursomc1.domain.enums.TipoCliente;
 
 @Entity
@@ -38,8 +32,7 @@ public class Cliente implements Serializable {
 	private Integer tipo;// Armazena um dado inteiro internamente mas expõe externamente um dado tipoCliente para o sistema
 	
 	
-	//O cliente tem vários endereços...Usa-se lista
-	@JsonManagedReference
+	
 	@OneToMany(mappedBy="cliente")
 	private List<Endereco> enderecos = new ArrayList<>();
 
@@ -51,7 +44,7 @@ public class Cliente implements Serializable {
 	@CollectionTable(name="TELEFONE" )
 	private Set<String> telefones = new HashSet<>();
 	
-	@JsonBackReference
+	@JsonIgnore
 	@OneToMany(mappedBy="cliente")
 	private List<Pedido> pedidos = new ArrayList<>();
 	
