@@ -27,15 +27,18 @@ public class Endereco implements Serializable {
 	private String cep;
 	
 	// Somente o endereço conhece a cidade não é necessário fazer nada do outro lado cidade.
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "cidade_id")
-	private Cidade cidade;
+	
+	
 	
 	// Endereço tem um cliente ... Não usa lista.
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "cliente_id")
 	private Cliente cliente;
+	
+	@ManyToOne
+	@JoinColumn(name = "cidade_id")
+	private Cidade cidade;
 	
 	
 	public Endereco() {
