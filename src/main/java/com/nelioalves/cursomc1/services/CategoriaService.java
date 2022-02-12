@@ -22,6 +22,11 @@ public class CategoriaService {
 
 	
 	}
+      // Aqui é feita a operação de inserção do CRUD
+	public Categoria insert(Categoria obj) {
+		obj.setId(null); // Aqui para garantir que seja uma nova inserção e o objeto seja nulo. Do contrário seria uma atualização.
+		return repo.save(obj);
+	}
 	
 
 }

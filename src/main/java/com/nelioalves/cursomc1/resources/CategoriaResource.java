@@ -1,11 +1,15 @@
 package com.nelioalves.cursomc1.resources;
 
+import java.net.URI;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nelioalves.cursomc1.domain.Categoria;
 import com.nelioalves.cursomc1.services.CategoriaService;
@@ -23,14 +27,23 @@ public class CategoriaResource {
 		
 		Categoria obj = service.find(id);
 		
-		
-		
-		
-		
 		return ResponseEntity.ok().body(obj); // Aqui é pra dizer que ocorreu tudo bem com o objeto.
 		
 	}
 	
+	//Aqui é feito uma classe para inserir obj/Uma das classes do crud
+	@RequestMapping(method = RequestMethod.POST)
+	public ResponseEntity<Void> insert(@RequestBody Categoria obj){// Aqui é para o objeto categoria ser construído fazendo o obj
+		// json ser convertido para o objeto java automaticamente.
+		
+		obj = service.insert(obj);
+		// A URI (Uniform Resource Identifier, ou Identificador Uniforme de Recursos) é uma string 
+		//(sequência de caracteres) que se refere a um recurso. A mais comum é a URL, que identifica o recurso localizando-o na Web.
+		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+				.path("/{id}").buildAndExpand(obj.getId()).toUri();
+		return ResponseEntity.created(uri).build();
+		
+	}
 	
 	
 
