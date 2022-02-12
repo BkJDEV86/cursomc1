@@ -1,6 +1,8 @@
 package com.nelioalves.cursomc1.resources;
 
 import java.net.URI;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.nelioalves.cursomc1.domain.Categoria;
+import com.nelioalves.cursomc1.dto.CategoriaDTO;
 import com.nelioalves.cursomc1.services.CategoriaService;
 
 @RestController
@@ -61,9 +64,18 @@ public class CategoriaResource {
 		service.delete(id);
 		return ResponseEntity.noContent().build();
 			
-		
 	}
 	
+	@RequestMapping( method=RequestMethod.GET) // aqui não vai ter value pois irá retonar todas as categorias
+	public 	ResponseEntity<List<CategoriaDTO>> findAll() {
+		
+		List<Categoria> list = service.findAll();
+		List<CategoriaDTO> listDto = list.stream().map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
+		//Aqui acima estamos convertendo uma lista para outra lista, transformando uma stream de objetos para uma outra lista.
+		
+		return ResponseEntity.ok().body(listDto);
 	
-
-}
+	
+	
+	}
+	}
