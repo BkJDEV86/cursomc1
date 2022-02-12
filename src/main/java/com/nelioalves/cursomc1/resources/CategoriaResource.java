@@ -42,6 +42,17 @@ public class CategoriaResource {
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
 				.path("/{id}").buildAndExpand(obj.getId()).toUri();
 		return ResponseEntity.created(uri).build();
+		// o código no postman é 201
+	}
+	
+	@RequestMapping(value="/{id}", method=RequestMethod.PUT)// Usamos essa anotação igual a da classe Response acima pois
+	//quando colocarmos a uri no postman precisamos chamar a url com o id
+	// Aqui abaixo é uma mistura chamando o corpo da requisição e o inteiro
+	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+		obj.setId(id);
+		obj=service.update(obj);
+		return ResponseEntity.noContent().build();// Aqui não tem que retornar nenhum contéudo por isso é noContent e o código no
+		// postman é 204
 		
 	}
 	
