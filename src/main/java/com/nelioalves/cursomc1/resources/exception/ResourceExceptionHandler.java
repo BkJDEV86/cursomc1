@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -28,6 +30,20 @@ public class ResourceExceptionHandler {
 		
 		// aqui modificamos de not_found para bad_request pois é outro tipo de exceção...
 		StandardError err = new StandardError(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
+	
+	
+	}
+	
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ResponseEntity<StandardError> validation(MethodArgumentNotValidException e, HttpServletRequest request){
+		
+		// aqui modificamos de not_found para bad_request pois é outro tipo de exceção...
+		ValidationError err = new ValidationError(HttpStatus.BAD_REQUEST.value(), "Erro de validadação", System.currentTimeMillis());
+		// Aqui abaixo é acessado todos os erros de campos que aconteceram nessa exceção private static final long serialVersionUID = 1L;
+		for (FieldError x: e.getBindingResult().getFieldErrors()) {
+			err.addError(x.getField(), x.getDefaultMessage());
+		}
 		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(err);
 	
 	
