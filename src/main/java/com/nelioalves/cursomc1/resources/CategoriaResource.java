@@ -4,6 +4,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -38,8 +40,10 @@ public class CategoriaResource {
 	
 	//Aqui é feito uma classe para inserir obj/Uma das classes do crud
 	@RequestMapping(method = RequestMethod.POST)
-	public ResponseEntity<Void> insert(@RequestBody Categoria obj){// Aqui é para o objeto categoria ser construído fazendo o obj
+	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDto){// Aqui é para o objeto categoria ser construído fazendo o obj
 		// json ser convertido para o objeto java automaticamente.
+		
+		Categoria obj = service.fromDTO(objDto);
 		
 		obj = service.insert(obj);
 		// A URI (Uniform Resource Identifier, ou Identificador Uniforme de Recursos) é uma string 
@@ -53,7 +57,8 @@ public class CategoriaResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)// Usamos essa anotação igual a da classe Response acima pois
 	//quando colocarmos a uri no postman precisamos chamar a url com o id
 	// Aqui abaixo é uma mistura chamando o corpo da requisição e o inteiro
-	public ResponseEntity<Void> update(@RequestBody Categoria obj, @PathVariable Integer id){
+	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDto, @PathVariable Integer id){
+		Categoria obj = service.fromDTO(objDto);// converter para objeto...
 		obj.setId(id);
 		obj=service.update(obj);
 		return ResponseEntity.noContent().build();// Aqui não tem que retornar nenhum contéudo por isso é noContent e o código no
