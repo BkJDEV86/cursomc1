@@ -37,9 +37,11 @@ public class CategoriaService {
 	
 	// A diferença entre o método acima e do debaixo é que se ele não for nula vai ser uma atuzalição.
 	public Categoria update(Categoria obj) {
-		find(obj.getId());// Aqui é chamado o objeto, caso ele não existe é lançado uma exceção
+		Categoria newObj = find(obj.getId());// Aqui é chamado um construtor
+		updateData(newObj, obj);
 		//obj.setId(null);
-		return repo.save(obj);
+		
+		return repo.save(newObj);
 		
 	}
 	
@@ -69,4 +71,10 @@ public class CategoriaService {
 	return new Categoria(objDto.getId(),objDto.getNome());
 	
 }
+	private void updateData(Categoria newObj, Categoria obj) {
+		newObj.setNome(obj.getNome());
+		
+	
+	}
+	
 }
