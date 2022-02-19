@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -33,7 +34,7 @@ public class Cliente implements Serializable {
 	
 	
 	
-	@OneToMany(mappedBy="cliente")
+	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL)// Todas as operações em cliente vão refletir em endereço...
 	private List<Endereco> enderecos = new ArrayList<>();
 
 	// Aqui um cliente pode ter vários telefones e o suso do set é porque é um conjunto que não aceita repetições
