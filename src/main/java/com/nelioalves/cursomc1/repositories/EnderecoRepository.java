@@ -7,6 +7,8 @@ import com.nelioalves.cursomc1.domain.Endereco;
 
 @Repository
 public interface EnderecoRepository extends JpaRepository<Endereco, Integer> {
+
+	
 	
 	
 	
