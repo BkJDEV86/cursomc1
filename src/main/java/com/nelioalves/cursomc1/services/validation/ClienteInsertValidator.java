@@ -6,12 +6,20 @@ import java.util.List;
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import com.nelioalves.cursomc1.domain.Cliente;
 import com.nelioalves.cursomc1.domain.enums.TipoCliente;
 import com.nelioalves.cursomc1.dto.ClienteNewDTO;
+import com.nelioalves.cursomc1.repositories.ClienteRepository;
 import com.nelioalves.cursomc1.resources.exception.FieldMessage;
 import com.nelioalves.cursomc1.services.validation.utils.BR;
 
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
+	
+	@Autowired
+	private ClienteRepository repo;
+	
 	@Override
 	public void initialize(ClienteInsert ann) {
 	}
@@ -24,12 +32,20 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 		// inclua os testes aqui, inserindo erros na lista
 		
 		if (objDto.getTipo().equals(TipoCliente.PESSOAFISICA.getCod()) & !BR.isValidCPF(objDto.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj", " CPF inválido"));
+			list.add(new FieldMessage("cpfOuCnpj", "CPF inválido"));
 		}
 		
 		if (objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) & !BR.isValidCNPJ(objDto.getCpfOuCnpj())) {
-			list.add(new FieldMessage("cpfOuCnpj", " CNPJ inválido"));
+			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
+			
+		}	
+		Cliente aux = repo.findByEmail(objDto.getEmail());
+		if (aux !=null) {
+			list.add(new FieldMessage("email", "Email já existente"));
+			
 		}
+			
+		
 		// Esse campo abaixo é responsável por percorrer o meu erro e transportando os meus erros personalizados para a lista do Framework
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();
